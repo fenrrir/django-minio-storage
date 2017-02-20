@@ -17,12 +17,12 @@ logger = getLogger("minio_storage")
 
 
 def get_setting(name, default=None):
-        result = getattr(settings, name, default)
-        if result is None:
-            print("Attr {} : {}".format(name, getattr(settings, name, default)))
-            raise ImproperlyConfigured
-        else:
-            return result
+    result = getattr(settings, name, default)
+    if result is None:
+        print("Attr {} : {}".format(name, getattr(settings, name, default)))
+        raise ImproperlyConfigured
+    else:
+        return result
 
 
 @deconstructible
@@ -150,6 +150,11 @@ class MinioStorage(Storage):
             logger.warn(error)
             raise IOError(
                 "Could not access modification time for file {}".format(name))
+
+    def path(self, name):
+        # type: (str) -> str
+        return name
+
 
 @deconstructible
 class MinioMediaStorage(MinioStorage):
