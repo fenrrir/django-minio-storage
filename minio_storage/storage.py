@@ -124,6 +124,7 @@ class MinioStorage(Storage):
         # type: (str) -> str
         if self.exists(name):
             return self.client.presigned_get_object(self.bucket_name, name)
+        return ''
 
     def accessed_time(self, name):
         # type: (str) -> datetime.datetime
