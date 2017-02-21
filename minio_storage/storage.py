@@ -124,8 +124,6 @@ class MinioStorage(Storage):
         # type: (str) -> str
         if self.exists(name):
             return self.client.presigned_get_object(self.bucket_name, name)
-        else:
-            raise IOError("This file does not exist")
 
     def accessed_time(self, name):
         # type: (str) -> datetime.datetime
