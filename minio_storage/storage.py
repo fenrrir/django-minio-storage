@@ -122,6 +122,14 @@ class MinioStorage(Storage):
 
     def url(self, name):
         # type: (str) -> str
+        if name.endswith('/'):
+            #  Minio don't support url for directories, but it's S3 standard. CKeditor breaks without that. Workaround.
+            try:
+                objects = self.client.list_objects(self.bucket_name, name)
+                next(objects)
+                return '{}/{}/{}'.format(self.client._endpoint_url, self.bucket_name, name)
+            except StopIteration:
+                return ''
         if self.exists(name):
             return self.client.presigned_get_object(self.bucket_name, name)
         return ''
